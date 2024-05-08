@@ -33,7 +33,7 @@ function Formulario() {
         <label htmlFor="name">Nombre:</label>
         <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required /><br /><br />
         <label htmlFor="age">Edad:</label>
-        <input type="number" id="age" name="age" value={formData.age} onChange={handleChange} required /><br /><br />
+        <input type="number" id="age" name="age" value={formData.age} onChange={handleChange} min="1" required /><br /><br />
         <button type="submit" className="btn btn-primary">Enviar</button>
       </form>
     </div>

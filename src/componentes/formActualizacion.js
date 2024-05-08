@@ -2,11 +2,21 @@ import React, { useState } from 'react';
 
 function FormActualizacion() {
   const [formData, setFormData] = useState({ id: '', newName: '' });
+  const [formBase, setFormBase] = useState({ id: '', newName: '',age:''});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
+  //vamos a requerir los datos al servidor para cargar en una lista
+  React.useEffect(() => {
+    fetch("/api/users")
+      .then((res) => res.json())
+      .then((datos) => setFormBase(datos));
+  }, []);
+
+  console.log(formBase);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

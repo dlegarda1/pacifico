@@ -1,5 +1,5 @@
 const express = require('express');
-//const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 const app = express();
 const puerto = 3001;
 
@@ -13,19 +13,20 @@ app.get('/home', (req, res) => {
   res.send('¡esto es home!');
 });
 
+const persona = { name: "diego", age: 20, activo: true }
+console.log(persona.name);
 
-/*
 // Middleware para parsear el body de la solicitud
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 //arreglos con datos predefinidos
 let users = [
-  { id: 1, name: 'Carlos', age:20 },
-  { id: 2, name: 'Maria', age:50 },
+  { id: 1, name: 'Carlos', age: 20 },
+  { id: 2, name: 'Maria', age: 50 },
 ];
 
-*/
+
 
 // Rutas para manejar las solicitudes GET
 // Ruta api  
@@ -38,16 +39,22 @@ app.get("/nuevo", (req, res) => {
   res.json({ mensaje: "Mensaje Cargado" });
 });
 
+app.get("/nuevo", (req, res) => {
+  res.json(users);
+});
 
-/*
+
+
+
 // Ruta para manejar la solicitud POST
 app.post('/api/user', (req, res) => {
   const { name, age } = req.body;
+  const edad = parseInt(age);
   console.log(req.body);
   console.log('Nombre:', name);
   console.log('Edad:', age);
   res.json({ message: 'Datos recibidos correctamente' });
-  users.push({ id: users.length+1, name, age });
+  users.push({ id: users.length + 1, name, age:edad });
   console.log(users);
 });
 
@@ -65,7 +72,7 @@ app.put('/api/user/:id', (req, res) => {
   console.log(users);
   res.json({ message: 'Nombre actualizado correctamente' });
 });
-
+/*
 // Manejador para DELETE /api/user/:id
 app.delete('/api/user/:id', (req, res) => {
   const { id } = req.params;
@@ -85,5 +92,5 @@ app.delete('/api/user/:id', (req, res) => {
 // Servidor en espera de instrucciones
 app.listen(puerto, () => {
   console.log(`escuchando en http://localhost:${puerto}`);
-  console.log("escuchando en http://localhost:"+puerto);
+  console.log("escuchando en http://localhost:" + puerto);
 });
