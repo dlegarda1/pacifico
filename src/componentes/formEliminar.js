@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 function FormEliminar() {
-  const [userId, setUserId] = useState('');
+  const [userId, setUserId] = useState('');  
   const [opciones, setOpciones] = useState([]);
 
   useEffect(() => {
@@ -29,12 +29,11 @@ function FormEliminar() {
         method: 'DELETE',
       });
       const data = await response.json();
-      console.log(data); // Aquí podrías manejar la respuesta del servidor si es necesario
+      console.log(data); 
 
-      // Actualizar la lista de opciones después de la eliminación
       const updatedOptions = opciones.filter(opcion => opcion.id !== parseInt(userId));
       setOpciones(updatedOptions);
-      setUserId(''); // Limpiar el valor seleccionado
+      setUserId(''); 
     } catch (error) {
       console.error('Error al enviar el formulario:', error);
     }

@@ -6,13 +6,10 @@ import Formulario from '../componentes/formulario';
 import FormActualizacion from '../componentes/formActualizacion';
 import FormEliminar from '../componentes/formEliminar';
 
-function Home() {     
-   
+function Home() {   
   return (
     <div className="App">
-      <Formulario/>
-      <FormActualizacion/>
-      <FormEliminar/>     
+      <Formulario/>   
     </div>
   );
 }
