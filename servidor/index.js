@@ -13,8 +13,7 @@ app.get('/home', (req, res) => {
   res.send('¡esto es home!');
 });
 
-const persona = { name: "diego", age: 20, activo: true }
-console.log(persona.name);
+
 
 // Middleware para parsear el body de la solicitud
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -39,7 +38,7 @@ app.get("/nuevo", (req, res) => {
   res.json({ mensaje: "Mensaje Cargado" });
 });
 
-app.get("/nuevo", (req, res) => {
+app.get("/api/users", (req, res) => {
   res.json(users);
 });
 
@@ -72,7 +71,7 @@ app.put('/api/user/:id', (req, res) => {
   console.log(users);
   res.json({ message: 'Nombre actualizado correctamente' });
 });
-/*
+
 // Manejador para DELETE /api/user/:id
 app.delete('/api/user/:id', (req, res) => {
   const { id } = req.params;
@@ -86,7 +85,7 @@ app.delete('/api/user/:id', (req, res) => {
   res.json({ message: 'Usuario eliminado correctamente' });
   console.log(users);
 });
-*/
+
 
 
 // Servidor en espera de instrucciones
