@@ -1,9 +1,20 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+//const bodyParser = require('body-parser');
 const app = express();
 const puerto = 3001;
 
 
+//  Para evaluar servidor iniciado
+app.get('/', (req, res) => {
+  res.send('¡Hola, mundo!');
+});
+
+app.get('/home', (req, res) => {
+  res.send('¡esto es home!');
+});
+
+
+/*
 // Middleware para parsear el body de la solicitud
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -14,11 +25,7 @@ let users = [
   { id: 2, name: 'Maria', age:50 },
 ];
 
-
-//  Para evaluar servidor iniciado
-app.get('/', (req, res) => {
-  res.send('¡Hola, mundo!');
-});
+*/
 
 // Rutas para manejar las solicitudes GET
 // Ruta api  
@@ -31,6 +38,8 @@ app.get("/nuevo", (req, res) => {
   res.json({ mensaje: "Mensaje Cargado" });
 });
 
+
+/*
 // Ruta para manejar la solicitud POST
 app.post('/api/user', (req, res) => {
   const { name, age } = req.body;
@@ -70,8 +79,11 @@ app.delete('/api/user/:id', (req, res) => {
   res.json({ message: 'Usuario eliminado correctamente' });
   console.log(users);
 });
+*/
+
 
 // Servidor en espera de instrucciones
 app.listen(puerto, () => {
   console.log(`escuchando en http://localhost:${puerto}`);
+  console.log("escuchando en http://localhost:"+puerto);
 });

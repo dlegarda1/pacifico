@@ -8,14 +8,9 @@ import FormEliminar from '../componentes/formEliminar';
 
 function Home() {     
    
-
   return (
     <div className="App">
-      <Card/>
-      <Recibir/>
-      <Formulario/>
-      <FormActualizacion/>
-      <FormEliminar/>
+      <Recibir/>      
     </div>
   );
 }
