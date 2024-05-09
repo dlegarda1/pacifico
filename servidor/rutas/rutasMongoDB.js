@@ -12,3 +12,4 @@ router.put('/:id', MongoDB.actualizarUsuario);
 router.delete('/:id', MongoDB.eliminarUsuario);
 router.delete('/limpiar', MongoDB.eliminarUsuarios);
 
+module.exports = router;
