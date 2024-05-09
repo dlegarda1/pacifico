@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Rutas
 app.use('/api/user', rutasUsuario);
-app.use('/api/mongoDB', rutasUsuario);
+app.use('/api/mongoDB', rutasMongoDB);
 
 
 // Conectar a la base de datos
