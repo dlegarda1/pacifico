@@ -10,7 +10,7 @@ function FormEliminar() {
 
   const fetchOpciones = async () => {
     try {
-      const response = await fetch('/api/users');
+      const response = await fetch('/api/user/envio');
       const data = await response.json();
       setOpciones(data);
     } catch (error) {

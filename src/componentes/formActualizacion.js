@@ -10,7 +10,7 @@ function FormActualizacion() {
 
   const fetchOpciones = async () => {
     try {
-      const response = await fetch('/api/users');
+      const response = await fetch('/api/user/envio');
       const data = await response.json();
       setOpciones(data);
     } catch (error) {
@@ -34,7 +34,7 @@ function FormActualizacion() {
         body: JSON.stringify({ newName: formData.newName }),
       });
       const data = await response.json();
-      console.log(data); // Aquí podrías manejar la respuesta del servidor si es necesario
+      console.log(data); 
 
       // Actualizar la lista de opciones después de la actualización
       const updatedOptions = opciones.map(opcion => {

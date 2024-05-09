@@ -13,8 +13,6 @@ app.get('/home', (req, res) => {
   res.send('¡esto es home!');
 });
 
-
-
 // Middleware para parsear el body de la solicitud
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -38,7 +36,7 @@ app.get("/nuevo", (req, res) => {
   res.json({ mensaje: "Mensaje Cargado" });
 });
 
-app.get("/api/users", (req, res) => {
+app.get("/api/user/envio", (req, res) => {
   res.json(users);
 });
 
@@ -75,7 +73,6 @@ app.put('/api/user/:id', (req, res) => {
 // Manejador para DELETE /api/user/:id
 app.delete('/api/user/:id', (req, res) => {
   const { id } = req.params;
-
   const userIndex = users.findIndex(user => user.id === parseInt(id));
   if (userIndex === -1) {
     return res.status(404).json({ error: 'Usuario no encontrado' });

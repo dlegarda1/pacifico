@@ -9,7 +9,9 @@ import FormEliminar from '../componentes/formEliminar';
 function Home() {   
   return (
     <div className="App">
-      <Formulario/>   
+      <Formulario/>
+      <FormActualizacion/> 
+      <FormEliminar/>       
     </div>
   );
 }

@@ -3,9 +3,9 @@ const router = express.Router();
 const usuario = require('../controladores/controladorUser');
 
 // Rutas
-router.get('/', usuario.enviarMensaje);
+router.get('/mensaje', usuario.enviarMensaje);
 router.post('/', usuario.ingresoUsuario);
-router.get('/', usuario.enviarUsuarios);
+router.get('/envio', usuario.enviarUsuarios);
 router.get('/:id', usuario.enviarUsuario);
 router.put('/:id', usuario.actualizacionNombre);
 router.delete('/:id', usuario.eliminarUsuario);

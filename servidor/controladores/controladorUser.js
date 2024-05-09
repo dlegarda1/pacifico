@@ -6,8 +6,6 @@ let users = [
     { id: 2, name: 'Maria', age: 50 },
   ];
 
-
-
 const enviarMensaje=(req, res) => {
   res.json({ mensaje: "Hola desde el servidor!" });
 }
@@ -41,6 +39,7 @@ const actualizacionNombre=(req, res) => {
   } else {
     res.status(404).json({ message: `Usuario ${id} no encontrado` });
   }
+  console.log(users);
 }
 
 
@@ -54,6 +53,7 @@ const eliminarUsuario= (req, res) => {
   } else {
     res.status(404).json({ message: `Usuario ${id} no encontrado` });
   }
+  console.log(users);
 }
 
 
