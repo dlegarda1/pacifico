@@ -17,10 +17,7 @@ const usuarioNuevo = async (req, res) => {
 
         const edad = parseInt(age);
         const user = new Usuario({ name, age: edad });
-
-
         await user.save();
-
 
         res.status(201).json({ message: 'Usuario creado exitosamente', user });
     } catch (error) {
@@ -33,6 +30,7 @@ const obtenerUsuarios = async (req, res) => {
     try {
         const usuarios = await Usuario.find();
         res.json(usuarios);
+        console.log("acceso a base"+usuarios);
     } catch (error) {
         console.error('Error al obtener usuarios en MongoDB:', error);
         res.status(500).json({ error: 'Error al obtener usuarios' });
@@ -68,7 +66,33 @@ const obtenerUsuarioPorNombre = async (req, res) => {
     }
 };
 
-const actualizarUsuario = async (req, res) => {
+
+const actualizarUsuarioPorNombre = async (req, res) => {
+    try {
+        const { name } = req.params;
+        const {newName,newAge} = req.body
+        console.log(`actualizando servidor ${newName} y ${newAge}`);
+        if (!newName || !newAge) {
+            return res.status(400).json({ error: 'Se requiere nombre y edad del usuario' });
+        }
+        const edad = parseInt(newAge);
+        
+        const usuario = await Usuario
+        .findOneAndUpdate({ name }, { name: newName, age: edad }, { new: true });   
+        if (!usuario) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+        res.json({ message: 'Usuario actualizado exitosamente', usuario });
+    } catch (error) {
+        console.error('Error al actualizar usuario por nombre en MongoDB:', error);
+        res.status(500).json({ error: 'Error al actualizar usuario por nombre' });
+    }
+};
+
+        
+     
+
+const actualizarUsuarioPorId = async (req, res) => {
     try {
         const { id } = req.params;
         const { name, age } = req.body;
@@ -107,6 +131,23 @@ const eliminarUsuario = async (req, res) => {
 };
 
 
+const eliminarUsuarioPorNombre = async (req, res) => {
+    try {
+        const { name } = req.params;
+        console.log(name);
+        const usuario = await Usuario.findOneAndDelete({ name });
+        if (!usuario) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+        res.json({ message: 'Usuario eliminado exitosamente', usuario });
+    }
+    catch (error) {
+        console.error('Error al eliminar usuario en MongoDB:', error);
+        res.status(500).json({ error: 'Error al eliminar usuario' });
+    }
+};
+
+
 const eliminarUsuarios = async (req, res) => {
     try {
         await Usuario.deleteMany();
@@ -124,7 +165,9 @@ module.exports = {
     obtenerUsuarios,
     obtenerUsuarioPorId,
     obtenerUsuarioPorNombre,
-    actualizarUsuario,
+    actualizarUsuarioPorId,
+    actualizarUsuarioPorNombre,
     eliminarUsuario,
+    eliminarUsuarioPorNombre,
     eliminarUsuarios
 };

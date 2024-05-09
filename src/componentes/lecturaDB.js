@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-function Recibir() { 
+function LecturaDB() { 
   const [datos, setDatos] = useState(null);
 
   useEffect(() => {
-    fetch("/api/mongoDB/datos") // Ruta en tu servidor Express para obtener los datos
+    fetch("/api/mongoDB/datos") 
       .then((res) => res.json())
       .then((datos) => setDatos(datos));
   }, []);
@@ -27,3 +27,5 @@ function Recibir() {
     </div>
   );
 }
+
+export default LecturaDB;

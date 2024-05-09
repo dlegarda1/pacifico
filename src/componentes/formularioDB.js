@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function Formulario() {
+function FormularioDB() {
   const [formData, setFormData] = useState({ name: '', age: '' });
 
   const handleChange = (e) => {
@@ -40,4 +40,4 @@ function Formulario() {
   );
 }
 
-export default Formulario;
+export default FormularioDB;

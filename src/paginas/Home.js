@@ -5,12 +5,17 @@ import Card from '../componentes/card';*/
 /*import Formulario from '../componentes/formulario';
 import FormActualizacion from '../componentes/formActualizacion';
 import FormEliminar from '../componentes/formEliminar';*/
-import lecturaDB from '../componentes/lecturaDB';
+import LecturaDB from '../componentes/lecturaDB';
+import FormularioDB from '../componentes/formularioDB';
+import FormActualizacionDB from '../componentes/actualizacionDB';
+import EliminacionDB from '../componentes/eliminarUsuarioDB';
 
 function Home() {   
   return (
     <div className="App">
-      <lecturaDB/>       
+      <header className="App-header"/>
+        <h1>Home</h1>      
+      <EliminacionDB />       
     </div>
   );
 }
