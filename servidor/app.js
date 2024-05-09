@@ -1,5 +1,7 @@
 const express = require('express');
-const rutasUsuario=require('./rutas/rutasUser');
+const rutasUsuario = require('./rutas/rutasUser');
+const connectDB = require('./BaseDatos/conexionmongoDB');
+const rutasMongoDB = require('./rutas/rutasMongoDB');
 
 const app = express();
 const puerto = 3001;
@@ -8,8 +10,14 @@ const puerto = 3001;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
 // Rutas
 app.use('/api/user', rutasUsuario);
+app.use('/api/mongoDB', rutasUsuario);
+
+
+// Conectar a la base de datos
+connectDB();
 
 // Iniciar el servidor
 app.listen(puerto, () => {

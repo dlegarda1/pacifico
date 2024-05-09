@@ -2,16 +2,15 @@
 import React from 'react';
 /*import Recibir from '../componentes/Recibir';
 import Card from '../componentes/card';*/
-import Formulario from '../componentes/formulario';
+/*import Formulario from '../componentes/formulario';
 import FormActualizacion from '../componentes/formActualizacion';
-import FormEliminar from '../componentes/formEliminar';
+import FormEliminar from '../componentes/formEliminar';*/
+import lecturaDB from '../componentes/lecturaDB';
 
 function Home() {   
   return (
     <div className="App">
-      <Formulario/>
-      <FormActualizacion/> 
-      <FormEliminar/>       
+      <lecturaDB/>       
     </div>
   );
 }
