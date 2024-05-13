@@ -7,7 +7,7 @@ let users = [
   ];
 
 const enviarMensaje=(req, res) => {
-  res.json({ mensaje: "Hola desde el servidor!" });
+  res.status(200).json({ mensaje: "Hola desde el servidor!" });
 }
 
 
@@ -22,8 +22,9 @@ const ingresoUsuario= (req, res) => {
   console.log(req.body);
   console.log('Nombre:', name);
   console.log('Edad:', age);
-  res.json({ message: 'Datos recibidos correctamente' });
-  users.push({ id: users.length + 1, name, age:edad });
+  id=users.length + 1;
+  users.push({ id , name, age:edad });
+  res.status(200).json({id:users[users.length-1].id,name:users[users.length-1].name,age:users[users.length-1].age});
   console.log(users);
 }
 
@@ -31,6 +32,7 @@ const ingresoUsuario= (req, res) => {
 const actualizacionNombre=(req, res) => {
   const { id } = req.params;
   const { newName } = req.body;
+  console.log("Actualizando...")
   const userId = parseInt(id);
   const user = users.find(user => user.id === userId);
   if (user) {

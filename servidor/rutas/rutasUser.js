@@ -7,7 +7,7 @@ router.get('/mensaje', usuario.enviarMensaje);
 router.post('/', usuario.ingresoUsuario);
 router.get('/envio', usuario.enviarUsuarios);
 router.get('/:id', usuario.enviarUsuario);
-router.put('/:id', usuario.actualizacionNombre);
-router.delete('/:id', usuario.eliminarUsuario);
+router.put('/aName/:id', usuario.actualizacionNombre);
+router.delete('/borrar/:id', usuario.eliminarUsuario);
 
 module.exports = router;

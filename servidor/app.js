@@ -11,6 +11,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
+//escribir un metodo get
+app.get('/', (req, res) => {
+  res.send('¡Hola, mundo!');
+});
+
 // Rutas
 app.use('/api/user', rutasUsuario);
 app.use('/api/mongoDB', rutasMongoDB);

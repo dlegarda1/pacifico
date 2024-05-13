@@ -3,7 +3,7 @@ const Usuario = require('../modelos/modeloMDB');
 
 
 const enviarMensaje = (req, res) => {
-    res.send('Hola desde MongoDB');
+    res.status(200).send('Hola desde MongoDB');
 };
 
 const usuarioNuevo = async (req, res) => {
