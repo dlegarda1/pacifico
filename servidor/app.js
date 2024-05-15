@@ -3,6 +3,9 @@ const rutasUsuario = require('./rutas/rutasUser');
 const connectDB = require('./BaseDatos/conexionmongoDB');
 const rutasMongoDB = require('./rutas/rutasMongoDB');
 const autenticacion = require('./Intermediarios/autenticacion.js'); 
+const Token = require('./Intermediarios/token.js');
+
+const router = express.Router();
 
 const app = express();
 const puerto = 3001;
@@ -18,10 +21,17 @@ app.get('/', (req, res) => {
 });
 
 // Rutas
-app.use('/api/user',autenticacion, rutasUsuario);
+app.use('/api/user',Token.verificacionTokenCookie, rutasUsuario);
 app.use('/api/mongoDB', rutasMongoDB);
 
+/*
+app.get('/api/login',autenticacion,Token.envioToken,async(req,res)=>{
+  res.json({ mensaje: "acceso concedido" });
+});*/
 
+app.get('/api/login',autenticacion,Token.envioTokenCookie,async(req,res)=>{
+  res.json({ mensaje: "acceso concedido" });
+});
 // Conectar a la base de datos
 connectDB();
 

@@ -28,4 +28,6 @@ const autenticar = (req, res, next) => {
     }
 };
 
+
+
 module.exports = autenticar;
