@@ -2,6 +2,7 @@ const express = require('express');
 const rutasUsuario = require('./rutas/rutasUser');
 const connectDB = require('./BaseDatos/conexionmongoDB');
 const rutasMongoDB = require('./rutas/rutasMongoDB');
+const autenticacion = require('./Intermediarios/autenticacion.js'); 
 
 const app = express();
 const puerto = 3001;
@@ -17,7 +18,7 @@ app.get('/', (req, res) => {
 });
 
 // Rutas
-app.use('/api/user', rutasUsuario);
+app.use('/api/user',autenticacion, rutasUsuario);
 app.use('/api/mongoDB', rutasMongoDB);
 
 
