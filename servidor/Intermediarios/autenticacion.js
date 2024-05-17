@@ -5,14 +5,16 @@
 
 //funcion para autenticacion de password
 const autenticar = (req, res, next) => {
+    //console.log(req.headers);
     const authHeader = req.headers['authorization'];
     if (!authHeader) {
         return res.status(401).json({ message: 'Se requiere autenticación' });
     }
     const base64Credentials = authHeader.split(' ')[1];
+    console.log('base 64'+base64Credentials);
     const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
     const [userName, password] = credentials.split(':');    
-    console.log(req.body);
+    console.log(credentials);
     console.log('Usuario:', userName);
     console.log('Password:',password);
     const user = users.find(user => user.userName === userName);

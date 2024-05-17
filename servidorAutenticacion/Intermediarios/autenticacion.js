@@ -9,7 +9,7 @@ const autenticar = (req, res, next) => {
     if (!authHeader) {
         return res.status(401).json({ message: 'Se requiere autenticación' });
     }
-    const base64Credentials = authHeader.split(' ')[1];
+    const base64Credentials = authHeader.split(' ')[1];    
     const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
     const [userName, password] = credentials.split(':');    
     console.log(req.body);
