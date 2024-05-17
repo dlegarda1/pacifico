@@ -3,10 +3,22 @@ const bodyParser = require('body-parser');
 const app = express();
 const puerto = 3001;
 
+// Middleware de autenticación
+function isAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+      return next();
+  }
+  res.redirect(`http://localhost:3001/login`);
+}
 
 //  Para evaluar servidor iniciado
 app.get('/', (req, res) => {
   res.send('¡Hola, mundo!');
+});
+
+// Ruta protegida
+app.get('/resource', isAuthenticated, (req, res) => {
+  res.send('Este es un recurso protegido');
 });
 
 app.get('/home', (req, res) => {
@@ -68,6 +80,10 @@ app.put('/api/user/:id', (req, res) => {
   users[userIndex].name = newName;
   console.log(users);
   res.json({ message: 'Nombre actualizado correctamente' });
+});
+
+app.get('/prueba',(req,res)=>{
+  res.send('Esto es una prueba');
 });
 
 // Manejador para DELETE /api/user/:id

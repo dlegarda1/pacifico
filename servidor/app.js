@@ -27,8 +27,8 @@ app.use('/api/mongoDB', rutasMongoDB);
 /*
 app.get('/api/login',autenticacion,Token.envioToken,async(req,res)=>{
   res.json({ mensaje: "acceso concedido" });
-});*/
-
+});
+*/
 app.get('/api/login',autenticacion,Token.envioTokenCookie,async(req,res)=>{
   res.json({ mensaje: "acceso concedido" });
 });
