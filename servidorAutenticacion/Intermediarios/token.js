@@ -1,19 +1,17 @@
 const jwt = require('jsonwebtoken');
-//const secretKey = 'Bootcamp';
+const secretKey = 'Bootcamp';
 
 
-const envioToken = (req, res,secretKey) => {
+const envioToken = (req, res) => {
     const authHeader = req.headers['authorization'];
     const base64Credentials = authHeader.split(' ')[1];
     const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
     const [userName, password] = credentials.split(':');
+
     // Generar un token JWT con información del usuario autenticado
-    const token = jwt.sign({ username: userName }, secretKey, { expiresIn: '1000' });
+    const token = jwt.sign({ username: userName }, secretKey, { expiresIn: '1h' });
     res.json({ token });
-    console.log('token enviado'+token);
-    req.user = user;
-    console.log("user"+req.user);
-    next();    
+    console.log(token);    
 }
 
 //funcion para enviar el token como cookie
@@ -26,10 +24,9 @@ const envioTokenCookie = (req, res, next) => {
     // Generar un token JWT con información del usuario autenticado
     const token = jwt.sign({username: userName }, secretKey, { expiresIn: '1h' });
     res.cookie('tokenCookie', token, { httpOnly: true, maxAge: 3600000 });
+    req.user = userName;
     next();
 }
-
-
 
 const verificacionToken = (req, res, next) => {
     const tokenrecibido = req.headers['authorization'];
@@ -50,9 +47,6 @@ const verificacionToken = (req, res, next) => {
         next();
     });
 };
-
-
-
 
 const verificacionTokenCookie = (req, res, next) => {
     const tokenrecibido = req.headers.cookie;

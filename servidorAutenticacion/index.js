@@ -64,7 +64,7 @@ function verificacionToken(token){
         return res.status(401).json({ message: 'Se requiere token de autenticación' });
     }
     jwt.verify(token, secretKey, (err, user) => {
-        console.log(user);
+        //console.log(user);
         if (err) {
             console.error('Error de verificación de token:', err);
             return false;
@@ -72,7 +72,19 @@ function verificacionToken(token){
         return true;
     });
 };
-
+// Función para enviar un token JWT como respuesta
+const envioToken = (req, res,secretKey) => {
+  const authHeader = req.headers['authorization'];
+  const base64Credentials = authHeader.split(' ')[1];
+  const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
+  const [userName, password] = credentials.split(':');
+  // Generar un token JWT con información del usuario autenticado
+  const token = jwt.sign({ username: userName }, secretKey, { expiresIn: '1000' });
+  res.json({ token });
+  console.log('token enviado'+token);
+  req.user = userName;
+  console.log("user: "+req.user);      
+}
 // Definir las rutas   
 
 app.get('/home',(req,res)=>{
