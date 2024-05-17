@@ -18,12 +18,24 @@ app.get('/', (req, res) => {
 });
 
 // Rutas
-app.get('/api/login',autenticacion,Token.envioToken,async(req,res)=>{
+app.get('/login',autenticacion,Token.envioTokenCookie,async(req,res)=>{
   res.json({ mensaje: "acceso concedido" });
 });
 
+// Ruta protegida
+app.get('/protected', Token.verificacionTokenCookie,async(req, res) => {
+  //res.send('Esta ruta está protegida');
+  console.log(req.user.username);
+  user=req.user.username;
+  if(user==="Carlos"){
+    res.redirect(`http://localhost:3001/admin`);
+  }  
+else{
+  res.redirect(`http://localhost:3001/usuario`);
+}
+});
 /*
-app.get('/api/login',autenticacion,Token.envioTokenCookie,async(req,res)=>{
+app.get('/login',autenticacion,Token.envioTokenCookie,async(req,res)=>{
   res.json({ mensaje: "acceso concedido" });
 });*/
 
