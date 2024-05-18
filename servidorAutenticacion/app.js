@@ -1,6 +1,10 @@
 const express = require('express');
 const autenticacion = require('./Intermediarios/autenticacion.js'); 
+const autenticarDB = require('./Intermediarios/autenticacionDB.js'); 
+const connectDB = require('./BaseDatos/conexionmongoDB');
+const rutasMongoDB = require('./rutas/rutasMongoDB');
 const Token = require('./Intermediarios/token.js');
+const TokenDB=require('./Intermediarios/tokenDB.js'); 
 
 const router = express.Router();
 
@@ -18,16 +22,16 @@ app.get('/', (req, res) => {
 });
 
 // Rutas
-app.get('/login',autenticacion,Token.envioTokenCookie,async(req,res)=>{
-  res.json({ mensaje: "acceso concedido" });
-});
+app.post('/login',autenticarDB,TokenDB.envioTokenDB);
+
 
 // Ruta protegida
-app.get('/protected', Token.verificacionTokenCookie,async(req, res) => {
+app.get('/protected', TokenDB.verificacionTokenDB,async(req, res) => {
   //res.send('Esta ruta está protegida');
+  console.log(req.user.rol);
   console.log(req.user.username);
-  user=req.user.username;
-  if(user==="Carlos"){
+
+  if(req.user.rol==="admin"){
     res.redirect(`http://localhost:3001/admin`);
   }  
 else{
@@ -39,9 +43,17 @@ app.get('/login',autenticacion,Token.envioTokenCookie,async(req,res)=>{
   res.json({ mensaje: "acceso concedido" });
 });*/
 
+
+//rutas para manejo de base de datos
+app.post('/registro',Token.verificacionToken,rutasMongoDB)
+
+
 app.get('/home',(req,res)=>{
     res.redirect(`http://localhost:3001/prueba`);
 });
+
+//conexión base de datos MongoDB
+connectDB();
 
 // Iniciar el servidor
 app.listen(puerto, () => {
