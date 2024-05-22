@@ -4,7 +4,7 @@ const MongoDB = require('../controladores/controladorMongoDB');
 
 // Rutas
 router.get('/mensaje', MongoDB.enviarMensaje);
-router.post('/', MongoDB.usuarioNuevo);
+router.post('/registro', MongoDB.usuarioNuevo);
 router.get('/datos', MongoDB.obtenerUsuarios);
 router.get('/:id', MongoDB.obtenerUsuarioPorId);
 router.get('/:name', MongoDB.obtenerUsuarioPorNombre);

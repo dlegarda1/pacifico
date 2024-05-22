@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
 const secretKey = 'Bootcamp';
 const Usuario = require('../modelos/modeloMDB');
+const cookieParser = require('cookie-parser');
+
 
 
 const envioTokenDB = (req, res) => {
@@ -14,6 +16,7 @@ const envioTokenDB = (req, res) => {
     // Accediendo a las propiedades de usuario
     const username = req.user.username;
     const rol = req.user.rol;
+    console.log("username "+username+ " rol "+rol);
     const payload = { rol: rol, username: username };
     const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
     res.json({ token, username: req.user.username, rol: req.user.rol });
@@ -21,16 +24,21 @@ const envioTokenDB = (req, res) => {
 
 
 //funcion para enviar el token como cookie
-const envioTokenCookie = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    const base64Credentials = authHeader.split(' ')[1];
-    const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
-    const [userName, password] = credentials.split(':');
-
-    // Generar un token JWT con información del usuario autenticado
-    const token = jwt.sign({ username: userName }, secretKey, { expiresIn: '1h' });
-    res.cookie('tokenCookie', token, { httpOnly: true, maxAge: 3600000 });
-    req.user = userName;
+const envioTokenCookieDB = (req, res, next) => {
+    if (!req.user) {
+        return res.status(401).json({ message: 'Usuario no autenticado' });
+    }
+    
+    const username = req.user.username;
+    const rol = req.user.rol;
+    console.log("username " + username + " rol " + rol);
+    
+    const payload = { rol: rol, username: username };
+    const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
+    console.log("token enviado "+token);
+    res.cookie('nuevoCookie', token, { httpOnly: true, secure:true, sameSite:'lax',maxAge: 3600000 });
+    //res.json({ message: 'Token generado con éxito', username: username, rol: rol });
+    //req.token=token;
     next();
 }
 
@@ -46,21 +54,24 @@ const verificacionTokenDB = (req, res, next) => {
             console.error('Error de verificación de token:', err);
             return res.status(403).json({ message: 'Token no válido' });
         }
-
         // Extraer nombre de usuario y rol del payload decodificado
         console.log(decodedToken);
         const username = decodedToken.username;
         const rol = decodedToken.rol;
-
         // Pasar el nombre de usuario y el rol a la siguiente función
-        req.user = { username, rol }; // o asigna los datos que necesites
+        req.user = { username, rol }; 
 
         next();
     });
 };
 
-const verificacionTokenCookie = (req, res, next) => {
+const verificacionTokenCookieDB = (req, res, next) => {
     const tokenrecibido = req.headers.cookie;
+    console.log("este es el cookie: "+tokenrecibido);
+    if(!tokenrecibido){
+        console.log("token no recibido");
+        return res.status(403).json({ error: 'Se requiere token de autenticación' });
+    }
     const cookieParts = tokenrecibido.split('=');
     token = cookieParts[1];
     console.log("token:" + token);
@@ -68,21 +79,26 @@ const verificacionTokenCookie = (req, res, next) => {
         return res.status(401).json({ message: 'Se requiere token de autenticación' });
     }
 
-    jwt.verify(token, secretKey, (err, user) => {
-        console.log(user);
+    jwt.verify(token, secretKey, (err, decodedToken) => {
+        console.log(decodedToken);
         if (err) {
             console.error('Error de verificación de token:', err);
             return res.status(403).json({ message: 'Token no válido' });
         }
 
-        req.user = user;
+        // Extraer nombre de usuario y rol del payload decodificado
+        console.log(decodedToken);
+        const username = decodedToken.username;
+        const rol = decodedToken.rol;
+        // Pasar el nombre de usuario y el rol a la siguiente función
+        req.user = { username, rol }; 
         next();
     });
 };
 
 module.exports = {
     envioTokenDB,
-    envioTokenCookie,
+    envioTokenCookieDB,
     verificacionTokenDB,
-    verificacionTokenCookie
+    verificacionTokenCookieDB
 }

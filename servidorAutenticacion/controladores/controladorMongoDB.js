@@ -7,14 +7,16 @@ const enviarMensaje = (req, res) => {
 };
 
 const usuarioNuevo = async (req, res) => {
+    console.log(req.body);
     try {
-        const { userName, password, rol } = req.body;
-        if (!userName || !password || !rol) {
+        const { name,username, password, rol, email } = req.body;
+        console.log(name,username, password, rol, email);
+        if (!username || !password || !rol) {
             return res.status(400).json({ error: 'Se requiere nombre y edad del usuario' });
         }
-        const usuario = new Usuario({ userName, password, rol });
+        const usuario = new Usuario({ name,username, password, rol, email });
         await usuario.save();
-        res.status(201).json({ message: 'Usuario creado exitosamente', user });
+        res.status(201).json({ message: 'Usuario creado exitosamente', usuario });
     } catch (error) {
         console.error('Error al crear usuario en MongoDB:', error);
         res.status(500).json({ error: 'Error al crear usuario' });
@@ -72,8 +74,7 @@ const actualizarUsuarioPorNombre = async (req, res) => {
         }
 
 
-        const usuario = await Usuario
-            .findOneAndUpdate({ userName }, { userName: newName, password: newPassword, rol: newRol }, { new: true });
+        const usuario = await Usuario.findOneAndUpdate({ userName }, { userName: newName, password: newPassword, rol: newRol }, { new: true });
         if (!usuario) {
             return res.status(404).json({ error: 'Usuario no encontrado' });
         }

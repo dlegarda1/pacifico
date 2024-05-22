@@ -8,7 +8,7 @@ function FormProtegido() {
     const fetchData = async () => {
       const token = localStorage.getItem('token');
       try {
-        const response = await axios.get('http://localhost:3001/prueba', {
+        const response = await axios.get('http://localhost:3002/basedatos/mensaje', {
           headers: { Authorization: `Bearer ${token}` }
         });
         setData(response.data);

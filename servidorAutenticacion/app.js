@@ -1,10 +1,13 @@
 const express = require('express');
-const autenticacion = require('./Intermediarios/autenticacion.js'); 
+//const autenticacion = require('./Intermediarios/autenticacion.js'); 
 const autenticarDB = require('./Intermediarios/autenticacionDB.js'); 
 const connectDB = require('./BaseDatos/conexionmongoDB');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const rutasMongoDB = require('./rutas/rutasMongoDB');
-const Token = require('./Intermediarios/token.js');
+//const Token = require('./Intermediarios/token.js');
 const TokenDB=require('./Intermediarios/tokenDB.js'); 
+const { redirect } = require('react-router-dom');
 
 const router = express.Router();
 
@@ -14,44 +17,41 @@ const puerto = 3002;
 // Middleware para parsear el body de la solicitud
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors({
+  credentials: true,
+  origin: ['http://localhost:3000', 'http://localhost:3002'] 
+}))
+app.use(cookieParser());
 
 
 //escribir un metodo get
 app.get('/', (req, res) => {
+  res.cookie('nuevoCookie', 'token', { httpOnly: true, secure:true, sameSite:'lax',maxAge: 3600000 });
   res.send('¡Hola, mundo!');
 });
 
 // Rutas
-app.post('/login',autenticarDB,TokenDB.envioTokenDB);
+app.post('/login',async(req,res)=>{
+  /*const tokenenviar=req.token;
+  console.log(tokenenviar);
+  res.cookie('cookietoken',tokenenviar);
+  res.send('cookie enviada');*/
+  redirect('/cookie');
+  //res.cookie('nuevoCookie', 'token', { httpOnly: true, secure:true, sameSite:'lax',maxAge: 3600000 });
+  //res.send('¡Hola, mundo!');
+});
 
+app.get('/cookie'),async(req,res)=>{
+  res.cookie('nuevoCookie', 'token', { httpOnly: true, secure:true, sameSite:'lax',maxAge: 3600000 });
+  res.send('¡Hola, mundo!');
+}
 
 // Ruta protegida
-app.get('/protected', TokenDB.verificacionTokenDB,async(req, res) => {
-  //res.send('Esta ruta está protegida');
-  console.log(req.user.rol);
-  console.log(req.user.username);
+app.use('/basedatos',TokenDB.verificacionTokenCookieDB,rutasMongoDB);
+  
 
-  if(req.user.rol==="admin"){
-    res.redirect(`http://localhost:3001/admin`);
-  }  
-else{
-  res.redirect(`http://localhost:3001/usuario`);
-}
-});
-/*
-app.get('/login',autenticacion,Token.envioTokenCookie,async(req,res)=>{
-  res.json({ mensaje: "acceso concedido" });
-});*/
-
-
-//rutas para manejo de base de datos
-app.post('/registro',Token.verificacionToken,rutasMongoDB)
-
-
-app.get('/home',(req,res)=>{
-    res.redirect(`http://localhost:3001/prueba`);
-});
-
+//ruta normal
+app.use('/acceso',rutasMongoDB);
 //conexión base de datos MongoDB
 connectDB();
 

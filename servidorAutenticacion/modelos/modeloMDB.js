@@ -6,6 +6,21 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
+  
+  username: {
+    type: String,
+    required: true,
+    unique: true    
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: 6
+  },
+  rol: {
+    type: String,
+    required: true
+  },
   email: {
     type: String,
     required: true,
@@ -16,19 +31,6 @@ const UserSchema = new Schema({
       },
       message: props => `${props.value} no es un correo electrónico válido`
     }
-  },
-  userName: {
-    type: String,
-    required: true    
-  },
-  password: {
-    type: String,
-    required: true,
-    minlength: 6
-  },
-  rol: {
-    type: String,
-    required: true
   }
 });
 
