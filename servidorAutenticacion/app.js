@@ -25,23 +25,44 @@ app.use(cookieParser());
 
 
 //escribir un metodo get
-app.get('/', (req, res) => {
-  res.cookie('nuevoCookie', 'token', { httpOnly: true, secure:true, sameSite:'lax',maxAge: 3600000 });
-  res.send('¡Hola, mundo!');
+app.post('/', (req, res) => {
+  res.cookie('nuevoCookie', 'token', { httpOnly: true, secure:false, sameSite:'lax',maxAge: 3600000 });
+  //res.send('¡Hola, mundo!');
+  res.redirect('/acceso/datos');
 });
 
+app.post('/login', autenticarDB,TokenDB.envioTokenCookieDB,async(req, res) => {
+    res.cookie('seraCookie', 'token', { secure: true, sameSite: 'None', maxAge: 3600000 }); 
+    res.status(200).send('¡Autenticación exitosa!');  
+});
+
+
+
 // Rutas
+/*
 app.post('/login',async(req,res)=>{
   /*const tokenenviar=req.token;
   console.log(tokenenviar);
   res.cookie('cookietoken',tokenenviar);
   res.send('cookie enviada');*/
-  redirect('/cookie');
+ // res.redirect('/cookie');
   //res.cookie('nuevoCookie', 'token', { httpOnly: true, secure:true, sameSite:'lax',maxAge: 3600000 });
   //res.send('¡Hola, mundo!');
+//});
+/*
+app.post('/login', (req, res) => {
+  // Realizar alguna lógica o procesamiento aquí
+
+  // Redirigir al cliente a una nueva ruta que responde a solicitudes GET
+  res.redirect('/nueva-ruta');
 });
 
-app.get('/cookie'),async(req,res)=>{
+app.get('/nueva-ruta', (req, res) => {
+  res.cookie('nuevoCookie', 'token', { httpOnly: true, secure:true, sameSite:'lax',maxAge: 3600000 });
+  res.send('Esta es la nueva ruta');
+});
+
+app.post('/cookie'),async(req,res)=>{
   res.cookie('nuevoCookie', 'token', { httpOnly: true, secure:true, sameSite:'lax',maxAge: 3600000 });
   res.send('¡Hola, mundo!');
 }
@@ -49,7 +70,7 @@ app.get('/cookie'),async(req,res)=>{
 // Ruta protegida
 app.use('/basedatos',TokenDB.verificacionTokenCookieDB,rutasMongoDB);
   
-
+*/
 //ruta normal
 app.use('/acceso',rutasMongoDB);
 //conexión base de datos MongoDB

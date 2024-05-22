@@ -21,7 +21,7 @@ function FormProtegidoBD() {
         });*/
         const cookietoken=getCookieValue('nuevoCookie');
         console.log(cookietoken);
-        const response = await axiosInstance.get('http://localhost:3002/basedatos/datos',{withCredentials: true});
+        const response = await axiosInstance.post('http://localhost:3002/',{withCredentials: true});
         setData(response.data);
         console.log(response.data)
       } catch (error) {

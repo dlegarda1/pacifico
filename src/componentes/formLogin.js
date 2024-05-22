@@ -1,26 +1,20 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function FormLogin({ onLogin }) {
+function FormLogin() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const credentials = `${username}:${password}`;
-    const base64Credentials = btoa(credentials);
-
+    
     try {
-      const response = await axios.post('http://localhost:3002/login', {}, {
-        headers: { Authorization: `Basic ${base64Credentials}` }
-      });
-      //const token = response.data.token;
-      const rol=response.data.rol;
-      console.log(rol);
-      console.log(response.data.message);
-      console.log(response.data.username);
-      //localStorage.setItem('token', token); 
-      onLogin(); 
+      const response = await axios.post(
+        'http://localhost:3002/login',
+        { username, password },
+        { withCredentials: true }
+      );
+      console.log(response);
     } catch (error) {
       if (error.response && error.response.status === 401) {
         console.error('Error de autenticación: Credenciales inválidas o no autorizadas.');
@@ -33,16 +27,16 @@ function FormLogin({ onLogin }) {
   return (
     <form onSubmit={handleSubmit}>
       <input
-        id='username'
-        name='username'
+        id="username"
+        name="username"
         type="text"
         placeholder="Nombre de usuario"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
       <input
-        id='password'
-        name='password'
+        id="password"
+        name="password"
         type="password"
         placeholder="Contraseña"
         value={password}

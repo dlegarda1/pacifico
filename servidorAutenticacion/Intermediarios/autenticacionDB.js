@@ -1,14 +1,14 @@
 const Usuario = require('../modelos/modeloMDB');
 
 const autenticarDB = async (req, res, next) => {
-    const authHeader = req.headers['authorization'];
+   /* const authHeader = req.headers['authorization'];
     if (!authHeader) {
         return res.status(401).json({ message: 'Se requiere autenticación' });
     }
     const base64Credentials = authHeader.split(' ')[1];
     const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
-    const [username, password] = credentials.split(':');
-
+    const [username, password] = credentials.split(':');*/
+    const { username, password } = req.body;
     console.log(req.body);
     console.log('Usuario:', username);
     console.log('Password:', password);

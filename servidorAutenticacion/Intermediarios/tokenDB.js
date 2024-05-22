@@ -32,13 +32,11 @@ const envioTokenCookieDB = (req, res, next) => {
     const username = req.user.username;
     const rol = req.user.rol;
     console.log("username " + username + " rol " + rol);
-    
     const payload = { rol: rol, username: username };
     const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
     console.log("token enviado "+token);
-    res.cookie('nuevoCookie', token, { httpOnly: true, secure:true, sameSite:'lax',maxAge: 3600000 });
-    //res.json({ message: 'Token generado con éxito', username: username, rol: rol });
-    //req.token=token;
+    res.cookie('nuevoCookie', token, { httpOnly: true, secure:true, sameSite:'None',maxAge: 3600000 });
+    res.json({ message: 'Token generado con éxito', username: username, rol: rol });
     next();
 }
 
