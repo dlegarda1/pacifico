@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function FormLogin() {
+function FormLogin({ onLogin }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   
@@ -14,7 +14,13 @@ function FormLogin() {
         { username, password },
         { withCredentials: true }
       );
+      const rol=response.data.rol;
       console.log(response);
+      console.log(rol);
+      console.log(response.data.message);
+      console.log(response.data.username);
+      //localStorage.setItem('token', token); 
+      onLogin();
     } catch (error) {
       if (error.response && error.response.status === 401) {
         console.error('Error de autenticación: Credenciales inválidas o no autorizadas.');

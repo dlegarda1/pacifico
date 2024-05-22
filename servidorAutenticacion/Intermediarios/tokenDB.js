@@ -27,8 +27,7 @@ const envioTokenDB = (req, res) => {
 const envioTokenCookieDB = (req, res, next) => {
     if (!req.user) {
         return res.status(401).json({ message: 'Usuario no autenticado' });
-    }
-    
+    }    
     const username = req.user.username;
     const rol = req.user.rol;
     console.log("username " + username + " rol " + rol);
@@ -36,6 +35,7 @@ const envioTokenCookieDB = (req, res, next) => {
     const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
     console.log("token enviado "+token);
     res.cookie('nuevoCookie', token, { httpOnly: true, secure:true, sameSite:'None',maxAge: 3600000 });
+    res.cookie('seraCookie', 'token', { secure: true, sameSite: 'None', maxAge: 3600000 }); 
     res.json({ message: 'Token generado con éxito', username: username, rol: rol });
     next();
 }
@@ -46,7 +46,6 @@ const verificacionTokenDB = (req, res, next) => {
     if (!token) {
         return res.status(401).json({ message: 'Se requiere token de autenticación' });
     }
-
     jwt.verify(token, secretKey, (err, decodedToken) => {
         if (err) {
             console.error('Error de verificación de token:', err);
@@ -64,14 +63,14 @@ const verificacionTokenDB = (req, res, next) => {
 };
 
 const verificacionTokenCookieDB = (req, res, next) => {
-    const tokenrecibido = req.headers.cookie;
+    const tokenrecibido = req.cookies.nuevoCookie;
     console.log("este es el cookie: "+tokenrecibido);
     if(!tokenrecibido){
         console.log("token no recibido");
         return res.status(403).json({ error: 'Se requiere token de autenticación' });
     }
-    const cookieParts = tokenrecibido.split('=');
-    token = cookieParts[1];
+    //const cookieParts = tokenrecibido.split('=');
+    token = tokenrecibido;
     console.log("token:" + token);
     if (!token) {
         return res.status(401).json({ message: 'Se requiere token de autenticación' });
