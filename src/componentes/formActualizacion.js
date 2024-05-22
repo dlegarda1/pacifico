@@ -1,22 +1,33 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function FormActualizacion() {
   const [formData, setFormData] = useState({ id: '', newName: '' });
   const [opciones, setOpciones] = useState([]);
 
+  
   useEffect(() => {
-    fetchOpciones();
+    const fetchData = async () => {
+      const token = document.cookie;
+      const axiosInstance = axios.create({
+        withCredentials: true
+    });
+      //const token = localStorage.getItem('token');
+      console.log(token);
+      try {
+        /*const response = await axios.get('http://localhost:3002/basedatos/datos', {
+          headers: { Authorization: `Bearer ${token}` }
+        });*/      
+        
+        const response = await axiosInstance.get('http://localhost:3002/basedatos/datos',{withCredentials: true});
+        setOpciones(response.data);
+        console.log(response.data)
+      } catch (error) {
+        console.error('Error al obtener los datos protegidos:', error.message);
+      }
+    };
+    fetchData();
   }, []);
-
-  const fetchOpciones = async () => {
-    try {
-      const response = await fetch('/api/user/envio');
-      const data = await response.json();
-      setOpciones(data);
-    } catch (error) {
-      console.error('Error al obtener los usuarios:', error);
-    }
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;

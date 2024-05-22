@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import FormActualizacion from './formActualizacion';
 
 function FormProtegidoBD() {
   const [data, setData] = useState(null);
@@ -64,32 +65,31 @@ function FormProtegidoBD() {
       {data ? (
         <div>
           <h1>Datos Protegidos</h1>
-          <select name="id" value={formData.id} onChange={handleChange}>
+          
+          <select className="select select-primary w-full max-w-xs" name="id" value={formData.id} onChange={handleChange}>
+          
             {data.map(opcion => (
               <option key={opcion.username} value={opcion.name}>
                 {opcion.name} - {opcion.username} - {opcion.rol}
               </option>
+              
             ))}
+            <option disabled selected>Sellecione un registro</option>
           </select><br /><br />
-          <button onClick={() => handleFormActualizar()}>Actualizar</button>
-          <button onClick={() => handleDelete()}>Eliminar</button>
+          <button  className="btn btn-primary"onClick={() => handleFormActualizar()}>Actualizar</button>
+          <button className="btn btn-primary" onClick={() => handleDelete()}>Eliminar</button>
         </div>
       ) : (
+        <>
+        <span className="loading loading-spinner loading-xs"></span>
         <p>Cargando...</p>
+        </>
       )}
       <>
         {actualizando?(
           <>
         <h2>Actualizar</h2>
-        <form>
-        <input
-          name='newName'
-          type="text"
-          placeholder="Nuevo nombre"
-          value={formData.newName}
-          onChange={handleChange}/>        
-        <button type="submit" onClick={handleUpdate}>Actualizar</button>
-        </form>
+        <FormActualizacion />
         </>
         ) : (<h2>formulario Actualizacion</h2>)}
       </>
