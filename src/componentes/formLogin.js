@@ -1,20 +1,80 @@
 import React, { useState } from 'react';
+import Cookies from 'js-cookie';
 import axios from 'axios';
 
 function FormLogin({ onLogin }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  //funcion para obtener informacion del navegador
+const getBrowserInfo = () => {
+  const userAgent = navigator.userAgent;
+    const browserName = (() => {
+      if (userAgent.includes('Firefox')) return 'Firefox';
+      if (userAgent.includes('Opera') || userAgent.includes('OPR')) return 'Opera';
+      if (userAgent.includes('Chrome')) return 'Chrome';
+      if (userAgent.includes('Safari')) return 'Safari';
+      if (userAgent.includes('MSIE') || userAgent.includes('Trident')) return 'Internet Explorer';
+      return 'Unknown';
+    })();
+    
+    const browserVersion = (() => {
+      if (userAgent.includes('Firefox')) return userAgent.split('Firefox/')[1];
+      if (userAgent.includes('Opera') || userAgent.includes('OPR')) return userAgent.split('OPR/')[1];
+      if (userAgent.includes('Chrome')) return userAgent.split('Chrome/')[1].split(' ')[0];
+      if (userAgent.includes('Safari')) return userAgent.split('Safari/')[1].split(' ')[0];
+      if (userAgent.includes('MSIE') || userAgent.includes('Trident')) return userAgent.split('MSIE ')[1].split(';')[0];
+      return 'Unknown';
+    })();
+    const windowWidth=(()=>{
+      return window.innerWidth;
+    })();
+    const cookieHabilitado=(()=>{
+      return navigator.cookieEnabled;
+    })();
+    const memoriaPC=(()=>{
+      return navigator.deviceMemory;
+    })();
+    const procesadorPC=(()=>{
+      return navigator.hardwareConcurrency;
+     })();
+     
+     const lenguajeNavegador=(()=>
+     {
+       return navigator.language;
+     })();
+     const navegadorOnline=(()=>
+      {
+        return navigator.onLine;
+      }
+    )();
+    return {
+      userAgent,
+      browserName,
+      browserVersion,
+      windowWidth,
+      cookieHabilitado,
+      memoriaPC,
+      procesadorPC,
+      lenguajeNavegador,
+      navegadorOnline      
+    };
+};
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const informacion=getBrowserInfo();
+    const infocookie = JSON.stringify(informacion);
     try {
+      Cookies.set('cookieInfo',infocookie , { secure: true, sameSite: 'None'});
       const response = await axios.post(
         'http://localhost:3002/login',
         { username, password },
         { withCredentials: true }
       );
       const rol = response.data.rol;
+      
+      console.log(infocookie);
       console.log(response);
       console.log(rol);
       console.log(response.data.message);
@@ -29,6 +89,9 @@ function FormLogin({ onLogin }) {
       }
     }
   };
+
+
+
 
   return (
     <form onSubmit={handleSubmit}>

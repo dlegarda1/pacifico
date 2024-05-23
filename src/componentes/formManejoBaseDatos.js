@@ -24,7 +24,7 @@ function FormProtegidoBD() {
         console.log(cookietoken);
         const response = await axiosInstance.get('http://localhost:3002/basedatos/datos',{withCredentials: true});
         setData(response.data);
-        console.log(response.data)
+        console.log(response.data);
       } catch (error) {
         console.error('Error al obtener los datos protegidos:', error.message);
       }

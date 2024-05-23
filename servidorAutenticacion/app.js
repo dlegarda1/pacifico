@@ -24,6 +24,11 @@ app.use(cors({
 app.use(cookieParser());
 
 // Rutas
+
+app.get('/home',async(req,res)=>{
+  res.cookie('seraCookie', 'token', { secure: true, sameSite: 'None', maxAge: 3600000 }); 
+  res.send('cookie enviada');
+})
 //ruta para login
 app.post('/login', autenticarDB,TokenDB.envioTokenCookieDB)
 //ruta para direccionamiento

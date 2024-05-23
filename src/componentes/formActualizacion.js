@@ -68,7 +68,7 @@ function FormActualizacion() {
         <select name="id" value={formData.id} onChange={handleChange}>
           {opciones.map(opcion => (
             <option key={opcion.id} value={opcion.id}>
-              {opcion.id} - {opcion.name} - {opcion.age} años
+             {opcion.name} - {opcion.username} - {opcion.rol} 
             </option>
           ))}
         </select><br /><br />
