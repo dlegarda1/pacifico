@@ -9,6 +9,7 @@ function FormLogin({ onLogin }) {
   //funcion para obtener informacion del navegador
 const getBrowserInfo = () => {
   const userAgent = navigator.userAgent;
+    console.log(userAgent);
     const browserName = (() => {
       if (userAgent.includes('Firefox')) return 'Firefox';
       if (userAgent.includes('Opera') || userAgent.includes('OPR')) return 'Opera';
