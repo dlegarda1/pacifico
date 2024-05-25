@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
-import CardCompra from '../Componentes/cardcompra';
-import FormLogin from '../Componentes/formLogin';
-import Formulario from '../Componentes/formulario';
-import FormProtegido from '../Componentes/formProtegido';
-import FormProtegidoBD from '../Componentes/formManejoBaseDatos';
-import ContadorClicks from '../Componentes/contadorClicks';
-import ImagenForm from '../Componentes/imagenForm'
-import DocumentoForm from '../Componentes/documentoForm'
+import CardCompra from '../componentes/cardcompra';
+import FormLogin from '../componentes/formLogin';
+import Formulario from '../componentes/formulario';
+import FormProtegido from '../componentes/formProtegido';
+import FormProtegidoBD from '../componentes/formManejoBaseDatos';
+import ContadorClicks from '../componentes/contadorClicks';
+import ImagenForm from '../componentes/imagenForm'
+import DocumentoForm from '../componentes/documentoForm'
 function Home() {
   const [autenticacion, setAutenticacion] = useState(false);
 
   const handleLogin = () => {
     setAutenticacion(true);
   };
-  return(    
+  return (
     <div className="container">
-      <ImagenForm/>   
-      <DocumentoForm/>      
+      <ImagenForm />
+      <DocumentoForm />
     </div>
   )
   /*

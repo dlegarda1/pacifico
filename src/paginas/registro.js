@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 import { useContext } from 'react';
-import { temaContexto } from '../Componentes/Tema';
+import { temaContexto } from '../componentes/Tema';
 
 
 function Registro() {

@@ -1,11 +1,11 @@
 import logo from './logo.svg';
 import Home from './paginas/Home';
-import FormLogin from './Componentes/formLogin';
-import FormProtegidoBD from './Componentes/formManejoBaseDatos';
+import FormLogin from './componentes/formLogin';
+import FormProtegidoBD from './componentes/formManejoBaseDatos';
 import './App.css';
-import Nuevo from './Componentes/nuevo';
-import { Switch } from './Componentes/switch';
-import { Rutas } from './Componentes/Rutas';
+import Nuevo from './componentes/nuevo';
+import { Switch } from './componentes/switch';
+import { Rutas } from './componentes/Rutas';
 import { RouterProvider } from "react-router-dom";
 
 function App() {
