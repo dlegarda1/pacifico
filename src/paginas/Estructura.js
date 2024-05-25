@@ -1,9 +1,9 @@
 import React from 'react';
-import Barra from "../Componentes/Barra";
-import Pie from "../Componentes/Pie";
+import Barra from "../componentes/Barra";
+import Pie from "../componentes/Pie";
 import { Outlet } from "react-router-dom";
 import { Button, Card } from 'react-bootstrap';
-import { temaContexto } from "../Componentes/Tema";
+import { temaContexto } from "../componentes/Tema";
 
 
 function Estructura() {
@@ -17,7 +17,7 @@ function Estructura() {
     } else {
         tema = "dark";
     }
-    console.log('cambio de estado ' + darkMode + " " + tema );
+    console.log('cambio de estado ' + darkMode + " " + tema);
     return (
         <div>
             <Barra />
@@ -25,7 +25,7 @@ function Estructura() {
                 Cambio General
             </Button>
             <Card data-bs-theme={tema}>
-            El nuevo tema es: {tema}
+                El nuevo tema es: {tema}
             </Card>
             <temaContexto.Provider value={tema}>
                 <main>
