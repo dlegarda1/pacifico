@@ -5,7 +5,7 @@ function Recibir() {
     const [datos, setDatos] = React.useState(null);
 
   React.useEffect(() => {
-    fetch("/api")
+    fetch("/api/users")
       .then((res) => res.json())
       .then((datos) => setDatos(datos.mensaje));
   }, []);

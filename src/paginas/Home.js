@@ -1,18 +1,36 @@
-//crear un componente con react
-import React from 'react';
-import Recibir from '../componentes/Recibir';
-import Card from '../componentes/card';
-import Formulario from '../componentes/formulario';
-import FormActualizacion from '../componentes/formActualizacion';
-import FormEliminar from '../componentes/formEliminar';
+import React, { useState } from 'react';
+import CardCompra from '../Componentes/cardcompra';
+import FormLogin from '../Componentes/formLogin';
+import Formulario from '../Componentes/formulario';
+import FormProtegido from '../Componentes/formProtegido';
+import FormProtegidoBD from '../Componentes/formManejoBaseDatos';
+import ContadorClicks from '../Componentes/contadorClicks';
+import ImagenForm from '../Componentes/imagenForm'
+import DocumentoForm from '../Componentes/documentoForm'
+function Home() {
+  const [autenticacion, setAutenticacion] = useState(false);
 
-function Home() {     
-   
+  const handleLogin = () => {
+    setAutenticacion(true);
+  };
+  return(    
+    <div className="container">
+      <ImagenForm/>   
+      <DocumentoForm/>      
+    </div>
+  )
+  /*
   return (
     <div className="App">
-      <FormActualizacion/>      
+      <header className="App-header" />
+      <h1>Home</h1>
+      {autenticacion ? (
+        <FormProtegidoBD />
+      ) : (
+        <FormLogin onLogin={handleLogin} />
+      )}    
     </div>
-  );
+  );*/
 }
 
 export default Home;

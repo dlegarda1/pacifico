@@ -3,18 +3,27 @@ const bodyParser = require('body-parser');
 const app = express();
 const puerto = 3001;
 
+// Middleware de autenticación
+function isAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+      return next();
+  }
+  res.redirect(`http://localhost:3001/login`);
+}
 
 //  Para evaluar servidor iniciado
 app.get('/', (req, res) => {
   res.send('¡Hola, mundo!');
 });
 
+// Ruta protegida
+app.get('/resource', isAuthenticated, (req, res) => {
+  res.send('Este es un recurso protegido');
+});
+
 app.get('/home', (req, res) => {
   res.send('¡esto es home!');
 });
-
-const persona = { name: "diego", age: 20, activo: true }
-console.log(persona.name);
 
 // Middleware para parsear el body de la solicitud
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -39,7 +48,7 @@ app.get("/nuevo", (req, res) => {
   res.json({ mensaje: "Mensaje Cargado" });
 });
 
-app.get("/nuevo", (req, res) => {
+app.get("/api/user/envio", (req, res) => {
   res.json(users);
 });
 
@@ -72,11 +81,14 @@ app.put('/api/user/:id', (req, res) => {
   console.log(users);
   res.json({ message: 'Nombre actualizado correctamente' });
 });
-/*
+
+app.get('/prueba',(req,res)=>{
+  res.send('Esto es una prueba');
+});
+
 // Manejador para DELETE /api/user/:id
 app.delete('/api/user/:id', (req, res) => {
   const { id } = req.params;
-
   const userIndex = users.findIndex(user => user.id === parseInt(id));
   if (userIndex === -1) {
     return res.status(404).json({ error: 'Usuario no encontrado' });
@@ -86,7 +98,7 @@ app.delete('/api/user/:id', (req, res) => {
   res.json({ message: 'Usuario eliminado correctamente' });
   console.log(users);
 });
-*/
+
 
 
 // Servidor en espera de instrucciones
