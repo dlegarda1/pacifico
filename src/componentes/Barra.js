@@ -29,7 +29,7 @@ const Barra = () => {
           <Link to="/registro">Registro</Link>
           <Link to="/entrada">Entrar</Link>
           <Link to="/prueba">prueba</Link>
-          <NavDropdown title="Tema" id="basic-nav-dropdown" data-bs-theme={tema}>
+          <NavDropdown title="Tema" id="basic-nav-dropdown" data-theme={tema}>
             <NavDropdown.Item onClick={temaLigth}>claro</NavDropdown.Item>
             <NavDropdown.Item onClick={temaDark}>
               oscuro
