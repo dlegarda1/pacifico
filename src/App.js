@@ -7,10 +7,10 @@ import Nuevo from './componentes/nuevo';
 import { Switch } from './componentes/switch';
 import { Rutas } from './componentes/Rutas';
 import { RouterProvider } from "react-router-dom";
-
+/*<RouterProvider router={Rutas} />*/
 function App() {
   return (
-    <RouterProvider router={Rutas} />
+    <p>este es un texto</p>
   );
 }
 

@@ -19,7 +19,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!axios)/\"",
     "eject": "react-scripts eject"
   },
   "proxy": "http://localhost:3002",
@@ -41,14 +41,22 @@
       "last 1 safari version"
     ]
   },
+  "jest": {
+    "transform": {
+      "^.+\\.(js|jsx)$": "babel-jest"
+    }
+  },
   "devDependencies": {
+    "@babel/cli": "^7.24.6",
     "@babel/core": "^7.24.6",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/plugin-transform-private-property-in-object": "^7.24.5",
     "@babel/preset-env": "^7.24.6",
     "@babel/preset-react": "^7.24.6",
+    "@salesforce/sfdx-lwc-jest": "^5.0.0",
     "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/react": "^15.0.7",
+    "@types/jest": "^29.5.12",
     "babel-jest": "^29.7.0",
     "daisyui": "^4.10.5",
     "express": "^4.19.2",
@@ -56,6 +64,7 @@
     "nodemon": "^3.1.0",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.14",
+    "react-test-renderer": "^18.3.1",
     "tailwindcss": "^3.4.3"
   },
   "description": "proyecto trabajo practico",
