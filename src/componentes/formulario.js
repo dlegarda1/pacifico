@@ -1,26 +1,25 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 function Formulario() {
   const [formData, setFormData] = useState({ name: '', age: '' });
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-  console.log(formData);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/user', {
-        method: 'POST',
+      const response = await axios.post('/api/user', formData, {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
       });
-      const data = await response.json();
-      console.log(data);
+      setSuccessMessage('Formulario enviado con éxito');
+      console.log(response.data);
     } catch (error) {
       console.error('Error al enviar el formulario:', error);
     }
@@ -36,6 +35,7 @@ function Formulario() {
         <input type="number" id="age" name="age" value={formData.age} onChange={handleChange} min="1" required /><br /><br />
         <button type="submit" className="btn btn-primary">Enviar</button>
       </form>
+      {successMessage && <p>{successMessage}</p>}
     </div>
   );
 }

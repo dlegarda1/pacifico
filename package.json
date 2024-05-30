@@ -6,6 +6,7 @@
     "@testing-library/user-event": "^13.5.0",
     "autoprefixer": "^10.4.19",
     "axios": "^1.6.8",
+    "jest-environment-jsdom": "^29.7.0",
     "js-cookie": "^3.0.5",
     "npm-check-updates": "^16.14.20",
     "postcss": "^8.4.38",
@@ -40,11 +41,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.(js|jsx)$": "babel-jest"
-    }
   },
   "devDependencies": {
     "@babel/cli": "^7.24.6",

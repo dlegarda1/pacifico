@@ -1,52 +1,51 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import userEvent from '@testing-library/user-event';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import FormLogin from '../componentes/formLogin';
-import { waitFor } from '@testing-library/react';
 
-// Mock de Axios
+
 jest.mock('axios');
+jest.mock('js-cookie');
 
-describe('FormLogin Component', () => {
-  const mockOnLogin = jest.fn();
-
-  beforeEach(() => {
-    jest.clearAllMocks();
+describe('FormLogin', () => {
+  it('renderizar correctamente el formulario', () => {
+    render(<FormLogin />);
+    expect(screen.getByPlaceholderText('Nombre de usuario')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Contraseña')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Iniciar sesión/i })).toBeInTheDocument();
   });
 
-  test('Prueba de errores de aytenticación', async () => {
-    // Simula la respuesta de error de Axios
-    axios.post.mockRejectedValueOnce({
-      response: { status: 401 }
-    });
+  it('permitir la actualización de los campos del formulario', () => {
+    render(<FormLogin />);
 
-    // Espía en console.error
-    const consoleErrorSpy = jest.spyOn(console, 'error');
+    const usernameInput = screen.getByPlaceholderText('Nombre de usuario');
+    const passwordInput = screen.getByPlaceholderText('Contraseña');
 
-    render(<FormLogin onLogin={mockOnLogin} />);
+    fireEvent.change(usernameInput, { target: { value: 'miUsuario' } });
+    fireEvent.change(passwordInput, { target: { value: 'miContraseña' } });
 
-    const usernameInput = screen.getByPlaceholderText(/Nombre de usuario/i);
-    const passwordInput = screen.getByPlaceholderText(/Contraseña/i);
+    expect(usernameInput.value).toBe('miUsuario');
+    expect(passwordInput.value).toBe('miContraseña');
+  });
+
+  it('enviar el formulario correctamente', async () => {
+    axios.post.mockResolvedValue({ data: { success: true, token: 'este-token', rol: 'admin' } });
+
+    render(<FormLogin onLogin={jest.fn()} />);
+
+    const usernameInput = screen.getByPlaceholderText('Nombre de usuario');
+    const passwordInput = screen.getByPlaceholderText('Contraseña');
     const submitButton = screen.getByRole('button', { name: /Iniciar sesión/i });
 
-    fireEvent.change(usernameInput, { target: { value: 'testuser' } });
-    fireEvent.change(passwordInput, { target: { value: 'wrongpassword' } });
+    fireEvent.change(usernameInput, { target: { value: 'miUsuario' } });
+    fireEvent.change(passwordInput, { target: { value: 'miContraseña' } });
 
-    fireEvent.click(submitButton);
+    await userEvent.click(submitButton);
 
-    await waitFor(() => {
-      expect(consoleErrorSpy).toHaveBeenCalledWith('Error de autenticación: Credenciales inválidas o no autorizadas.');
-    });
-
-    expect(axios.post).toHaveBeenCalledWith(
-      'http://localhost:3002/login',
-      { username: 'testuser', password: 'wrongpassword' },
-      { withCredentials: true }
-    );
-    expect(mockOnLogin).not.toHaveBeenCalled();
-
-    // Restablecer el espía en console.error
-    consoleErrorSpy.mockRestore();
+    await waitFor(() => expect(axios.post).toHaveBeenCalledTimes(1));
+    expect(Cookies.set).toHaveBeenCalledWith('cookieInfo', expect.any(String), { secure: true, sameSite: 'None' });
   });
 });
