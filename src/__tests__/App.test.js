@@ -1,12 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import App from '../App';
+import '@testing-library/jest-dom';
 import FormLogin from '../componentes/formLogin';
 import React from 'react';
 
 //este es una prueba de rendirazacion para APP
 test('Parrafo con contenido de texto', () => {
   render(<App />);
-  const linkElement = screen.getByText(/este es un texto/i);
+  const linkElement = screen.getByText(/Subir Documento/i);
   expect(linkElement).toBeInTheDocument();
 });
 
